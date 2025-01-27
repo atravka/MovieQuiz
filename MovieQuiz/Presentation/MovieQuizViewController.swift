@@ -154,7 +154,6 @@ final class MovieQuizViewController: UIViewController {
             let firstQuestion = self.questions[self.currentQuestionIndex]
             let viewModel = self.convert(model: firstQuestion)
             self.show(quiz: viewModel)
-        //    self.imageView.layer.masksToBounds = true
             self.imageView.layer.borderWidth   = 0
         }
         
