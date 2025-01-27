@@ -80,12 +80,17 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
     
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet weak var yesButton: UIButton!
+    
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        yesButton.isEnabled = false
         let isCorrect = questions[currentQuestionIndex].correctAnswer
         showAnswerResult(isCorrect: isCorrect)
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
+        noButton.isEnabled = false
         let isCorrect = questions[currentQuestionIndex].correctAnswer
         showAnswerResult(isCorrect: !isCorrect)
     }
@@ -119,6 +124,8 @@ final class MovieQuizViewController: UIViewController {
     
     private func showNextQuestionOrResults() {
         imageView.layer.borderWidth = 0
+        yesButton.isEnabled = true
+        noButton.isEnabled  = true
         if currentQuestionIndex == questions.count - 1 {
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен",
