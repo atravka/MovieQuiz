@@ -73,7 +73,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
         activityIndicator.stopAnimating()
 
         let alert = AlertModel(
-            title: "Ошибка",
+            title: "Что-то пошло не так(",
             message: message,
             buttonText: "Попробовать ещё раз") { [weak self] in
                 guard let self = self else { return }
@@ -81,6 +81,20 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
                 self.correctAnswers = 0
                 activityIndicator.startAnimating()
                 self.questionFactory?.loadData()
+            }
+        alertPresenter.show(alertModel: alert)
+    }
+    
+    private func showError(message: String) {
+        activityIndicator.stopAnimating()
+        
+        let alert = AlertModel(
+            title: "Что-то пошло не так",
+            message: message,
+            buttonText: "Попробовать ещё раз") { [weak self] in
+                guard let self else {return}
+                activityIndicator.startAnimating()
+                self.questionFactory?.requestNextQuestion()
             }
         alertPresenter.show(alertModel: alert)
     }
@@ -92,6 +106,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
 
     func didFailToLoadData(with error: Error) {
         showNetworkError(message: error.localizedDescription)
+    }
+    
+    func didFailLoadImage(with error: Error) {
+        showError(message: error.localizedDescription)
     }
 
     private func buttons(enable: Bool) {
